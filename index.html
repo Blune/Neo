@@ -62,12 +62,12 @@
             font-size: 3rem;
             text-shadow: 0 0 20px #00FF41, 0 0 30px #00FF41;
             z-index: 20;
-            animation: glow 2s infinite alternate;
+            animation: fadeOut 10s forwards;
         }
 
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41; }
-            100% { text-shadow: 0 0 30px #00FF41, 0 0 40px #00FF41; }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
@@ -81,41 +81,51 @@
 
     <script>
         const startTime = new Date('2024-09-27T20:26:00');
-        
+
         function updateTimer() {
             const now = new Date();
             const diffInSeconds = Math.floor((now - startTime) / 1000);
-            const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
-            const months = now.getMonth() - startTime.getMonth() + 12 * (now.getFullYear() - startTime.getFullYear());
-            const days = Math.floor((diffInSeconds % (60 * 60 * 24 * 30)) / (60 * 60 * 24));
-            const hours = Math.floor((diffInSeconds % (60 * 60 * 24)) / (60 * 60));
-            const minutes = Math.floor((diffInSeconds % (60 * 60)) / 60);
-            const seconds = diffInSeconds % 60;
 
+            // Calculate time components
+            const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
+            const remainingSecondsAfterYears = diffInSeconds % (60 * 60 * 24 * 365);
+            const months = Math.floor(remainingSecondsAfterYears / (60 * 60 * 24 * 30));
+            const remainingSecondsAfterMonths = remainingSecondsAfterYears % (60 * 60 * 24 * 30);
+            const weeks = Math.floor(remainingSecondsAfterMonths / (60 * 60 * 24 * 7));
+            const days = Math.floor((remainingSecondsAfterMonths % (60 * 60 * 24 * 7)) / (60 * 60 * 24));
+            const hours = Math.floor((remainingSecondsAfterMonths % (60 * 60 * 24)) / (60 * 60));
+            const minutes = Math.floor((remainingSecondsAfterMonths % (60 * 60)) / 60);
+            const seconds = remainingSecondsAfterMonths % 60;
+
+            // Update timer display
             document.getElementById('timer').innerHTML = `
                 <div>${years} Jahre</div>
                 <div>${months} Monate</div>
+                <div>${weeks} Wochen</div>
                 <div>${days} Tage</div>
                 <div>${hours} Stunden</div>
                 <div>${minutes} Minuten</div>
                 <div>${seconds} Sekunden</div>
             `;
 
+            // Check if today is the birthday
             checkBirthday(now);
         }
 
         function checkBirthday(currentDate) {
-            const isBirthday = currentDate.getDate() === 27 && currentDate.getMonth() === 8; // September is month 8 (0-based index)
+            const isBirthday = currentDate.getDate() === 27 && currentDate.getMonth() === 8; // September is 8 (0-indexed)
             const birthdayMessage = document.getElementById('birthday-message');
 
             if (isBirthday) {
                 birthdayMessage.style.display = 'flex';
-                setTimeout(() => birthdayMessage.style.display = 'none', 10000);
+                setTimeout(() => {
+                    birthdayMessage.style.display = 'none';
+                }, 10000); // Message fades after 10 seconds
             }
         }
 
         setInterval(updateTimer, 1000);
-        updateTimer();
+        updateTimer(); // Initial call
     </script>
 </body>
 </html>
