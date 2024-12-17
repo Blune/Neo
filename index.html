@@ -47,7 +47,7 @@
 
         /* Birthday Animation */
         #birthday-message {
-            display: none;
+            display: none; /* Hidden by default */
             position: absolute;
             top: 0;
             left: 0;
@@ -62,6 +62,7 @@
             font-size: 3rem;
             text-shadow: 0 0 20px #00FF41, 0 0 30px #00FF41;
             z-index: 20;
+            opacity: 0;
             animation: fadeOut 10s forwards;
         }
 
@@ -72,8 +73,10 @@
     </style>
 </head>
 <body>
+    <!-- Birthday Message -->
     <div id="birthday-message">🎉 Alles Gute, mein Kleiner 🎉</div>
 
+    <!-- Timer Content -->
     <div id="timer-container">
         <div id="timer-title">Tage seit Neo's Ankunft</div>
         <div id="timer"></div>
@@ -113,19 +116,19 @@
         }
 
         function checkBirthday(currentDate) {
-            const isBirthday = currentDate.getDate() === 27 && currentDate.getMonth() === 8; // September is 8 (0-indexed)
+            const isBirthday = currentDate.getDate() === 27 && currentDate.getMonth() === 8; // September (0-indexed)
             const birthdayMessage = document.getElementById('birthday-message');
 
-            if (isBirthday) {
+            if (isBirthday && birthdayMessage.style.display === "none") {
                 birthdayMessage.style.display = 'flex';
                 setTimeout(() => {
                     birthdayMessage.style.display = 'none';
-                }, 10000); // Message fades after 10 seconds
+                }, 10000); // Fade out after 10 seconds
             }
         }
 
         setInterval(updateTimer, 1000);
-        updateTimer(); // Initial call
+        updateTimer();
     </script>
 </body>
 </html>
