@@ -45,22 +45,6 @@
             gap: 0.5rem;
         }
 
-        /* Matrix Animation */
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        canvas {
-            display: block;
-        }
-
         /* Birthday Animation */
         #birthday-message {
             display: none;
@@ -88,98 +72,50 @@
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="matrix-bg">
-        <canvas id="matrixCanvas"></canvas>
-    </div>
+    <div id="birthday-message">🎉 Alles Gute, mein Kleiner 🎉</div>
 
-    <!-- Timer Content -->
     <div id="timer-container">
         <div id="timer-title">Tage seit Neo's Ankunft</div>
         <div id="timer"></div>
     </div>
 
-    <!-- Birthday Animation -->
-    <div id="birthday-message">
-        🎉 Alles Gute, mein Kleiner 🎉
-    </div>
-
     <script>
-        // Matrix Background Animation
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const matrixChars = "abcdefghijklmnopqrstuvwxyz0123456789";
-        const columns = Math.floor(canvas.width / 20);
-        const drops = Array(columns).fill(0);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#00FF41";
-            ctx.font = "20px Courier New";
-
-            drops.forEach((y, i) => {
-                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
-                ctx.fillText(text, i * 20, y);
-
-                if (y > canvas.height && Math.random() > 0.98) drops[i] = 0;
-                drops[i] += 20;
-            });
-        }
-
-        setInterval(drawMatrix, 50);
-
-        // Timer Calculation
         const startTime = new Date('2024-09-27T20:26:00');
-
+        
         function updateTimer() {
             const now = new Date();
             const diffInSeconds = Math.floor((now - startTime) / 1000);
-
-            // Calculate time components
             const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
-            const remainingSecondsAfterYears = diffInSeconds % (60 * 60 * 24 * 365);
-            const months = Math.floor(remainingSecondsAfterYears / (60 * 60 * 24 * 30));
-            const remainingSecondsAfterMonths = remainingSecondsAfterYears % (60 * 60 * 24 * 30);
-            const weeks = Math.floor(remainingSecondsAfterMonths / (60 * 60 * 24 * 7));
-            const days = Math.floor((remainingSecondsAfterMonths % (60 * 60 * 24 * 7)) / (60 * 60 * 24));
-            const hours = Math.floor((remainingSecondsAfterMonths % (60 * 60 * 24)) / (60 * 60));
-            const minutes = Math.floor((remainingSecondsAfterMonths % (60 * 60)) / 60);
-            const seconds = remainingSecondsAfterMonths % 60;
+            const months = now.getMonth() - startTime.getMonth() + 12 * (now.getFullYear() - startTime.getFullYear());
+            const days = Math.floor((diffInSeconds % (60 * 60 * 24 * 30)) / (60 * 60 * 24));
+            const hours = Math.floor((diffInSeconds % (60 * 60 * 24)) / (60 * 60));
+            const minutes = Math.floor((diffInSeconds % (60 * 60)) / 60);
+            const seconds = diffInSeconds % 60;
 
-            // Update display in German
             document.getElementById('timer').innerHTML = `
                 <div>${years} Jahre</div>
                 <div>${months} Monate</div>
-                <div>${weeks} Wochen</div>
                 <div>${days} Tage</div>
                 <div>${hours} Stunden</div>
                 <div>${minutes} Minuten</div>
                 <div>${seconds} Sekunden</div>
             `;
 
-            // Trigger Birthday Animation
             checkBirthday(now);
         }
 
         function checkBirthday(currentDate) {
-            const neoBirthday = new Date(currentDate.getFullYear(), 8, 27); // 27th September
-            const isBirthday = currentDate.getDate() === neoBirthday.getDate() && currentDate.getMonth() === neoBirthday.getMonth();
+            const isBirthday = currentDate.getDate() === 27 && currentDate.getMonth() === 8; // September is month 8 (0-based index)
+            const birthdayMessage = document.getElementById('birthday-message');
 
             if (isBirthday) {
-                document.getElementById('birthday-message').style.display = 'flex';
-                setTimeout(() => {
-                    document.getElementById('birthday-message').style.display = 'none';
-                }, 10000); // Display for 10 seconds
+                birthdayMessage.style.display = 'flex';
+                setTimeout(() => birthdayMessage.style.display = 'none', 10000);
             }
         }
 
         setInterval(updateTimer, 1000);
-        updateTimer(); // Initial call
+        updateTimer();
     </script>
 </body>
 </html>
