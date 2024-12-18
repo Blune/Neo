@@ -19,7 +19,7 @@
 
         .swipe-container {
             display: flex;
-            width: 300%;
+            width: 800%;
             height: 100%;
             transition: transform 0.5s ease;
         }
@@ -56,6 +56,9 @@
 </head>
 <body>
     <div class="swipe-container" id="swipe-container">
+        <div class="page">
+            <div class="matrix-effect" id="combined"></div>
+        </div>
         <div class="page">
             <div class="matrix-effect" id="years"></div>
         </div>
@@ -113,11 +116,13 @@
             document.getElementById('hours').textContent = `Hours: ${totalHours}`;
             document.getElementById('minutes').textContent = `Minutes: ${totalMinutes}`;
             document.getElementById('seconds').textContent = `Seconds: ${totalSeconds}`;
+
+            document.getElementById('combined').textContent = `At the moment: ${years} years, ${months} months, ${Math.floor((totalDays % 365.25) / 7)} weeks, and ${totalDays % 7} days.`;
         }
 
         let currentPage = 0;
         const swipeContainer = document.getElementById('swipe-container');
-        const totalPages = 7;
+        const totalPages = 8;
 
         function handleSwipe(direction) {
             currentPage = (currentPage + direction + totalPages) % totalPages;
