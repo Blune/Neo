@@ -56,31 +56,42 @@
 
         function updateTimer() {
             const now = new Date();
-            const totalSeconds = Math.floor((now - startTime) / 1000);
 
             // Years and months calculation using date objects
             let years = now.getFullYear() - startTime.getFullYear();
             let months = now.getMonth() - startTime.getMonth();
             if (now.getDate() < startTime.getDate()) {
-                months--; // Subtract 1 month if the day of the current month is less than the start date
+                months--; // Subtract 1 month if the current day is less than the start date
             }
             if (months < 0) {
                 years--; // Adjust years if months are negative
                 months += 12;
             }
 
-            // Calculate remaining days after full months
-            const lastFullMonthDate = new Date(now.getFullYear(), now.getMonth(), startTime.getDate());
-            const daysSinceLastFullMonth = Math.floor((now - lastFullMonthDate) / (1000 * 60 * 60 * 24));
+            // Calculate the start date for this month's cycle (27th of the current month)
+            const lastFullMonthDate = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                startTime.getDate()
+            );
 
-            // Calculate remaining components
+            // If the current day is before the 27th, adjust to the last full month cycle
+            if (now < lastFullMonthDate) {
+                lastFullMonthDate.setMonth(lastFullMonthDate.getMonth() - 1);
+            }
+
+            // Calculate days since the last full month date
+            const diffInMillis = now - lastFullMonthDate;
+            const diffInDays = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
+
+            // Weeks and days calculation
+            const weeks = Math.floor(diffInDays / 7);
+            const days = diffInDays % 7;
+
+            // Remaining components
             const hours = now.getHours();
             const minutes = now.getMinutes();
             const seconds = now.getSeconds();
-
-            // Weeks calculation from days
-            const weeks = Math.floor(daysSinceLastFullMonth / 7);
-            const days = daysSinceLastFullMonth % 7;
 
             // Update timer display
             document.getElementById('timer').innerHTML = `
