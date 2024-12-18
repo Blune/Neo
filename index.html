@@ -52,27 +52,35 @@
     </div>
 
     <script>
-        // Initialize start time in German local time (Europe/Berlin) using ISO format
-        const startTime = new Date('2024-09-27T20:26:00+02:00'); // Explicitly in German summer time
+        const startTime = new Date('2024-09-27T20:26:00+02:00'); // Explicitly set German local time
 
         function updateTimer() {
-            const now = new Date(); // Current local time
-            const diffInSeconds = Math.floor((now - startTime) / 1000);
+            const now = new Date();
+            const totalSeconds = Math.floor((now - startTime) / 1000);
 
-            // Calculate time components
-            const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
-            let remainingSeconds = diffInSeconds % (60 * 60 * 24 * 365);
+            // Years and months calculation using date objects
+            let years = now.getFullYear() - startTime.getFullYear();
+            let months = now.getMonth() - startTime.getMonth();
+            if (now.getDate() < startTime.getDate()) {
+                months--; // Subtract 1 month if the day of the current month is less than the start date
+            }
+            if (months < 0) {
+                years--; // Adjust years if months are negative
+                months += 12;
+            }
 
-            const months = Math.floor(remainingSeconds / (60 * 60 * 24 * 30));
-            remainingSeconds %= (60 * 60 * 24 * 30);
+            // Calculate remaining days after full months
+            const lastFullMonthDate = new Date(now.getFullYear(), now.getMonth(), startTime.getDate());
+            const daysSinceLastFullMonth = Math.floor((now - lastFullMonthDate) / (1000 * 60 * 60 * 24));
 
-            const weeks = Math.floor(remainingSeconds / (60 * 60 * 24 * 7));
-            remainingSeconds %= (60 * 60 * 24 * 7);
+            // Calculate remaining components
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
 
-            const days = Math.floor(remainingSeconds / (60 * 60 * 24));
-            const hours = Math.floor((remainingSeconds % (60 * 60 * 24)) / (60 * 60));
-            const minutes = Math.floor((remainingSeconds % (60 * 60)) / 60);
-            const seconds = remainingSeconds % 60;
+            // Weeks calculation from days
+            const weeks = Math.floor(daysSinceLastFullMonth / 7);
+            const days = daysSinceLastFullMonth % 7;
 
             // Update timer display
             document.getElementById('timer').innerHTML = `
