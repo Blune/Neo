@@ -19,7 +19,7 @@
 
         .swipe-container {
             display: flex;
-            width: 700%;
+            width: 800%;
             height: 100%;
             transition: transform 0.5s ease;
         }
@@ -61,33 +61,28 @@
 <body>
     <div class="swipe-container" id="swipe-container">
         <div class="page">
-            <div class="matrix-effect" id="years"></div>
-            <div class="matrix-effect" id="weeks"></div>
-            <div class="matrix-effect" id="days"></div>
-            <div class="matrix-effect" id="hours"></div>
-            <div class="matrix-effect" id="minutes"></div>
-            <div class="matrix-effect" id="seconds"></div>
+            <div class="matrix-effect" id="combined"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="years"></div>
+            <div class="matrix-effect" id="years-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="months"></div>
+            <div class="matrix-effect" id="months-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="weeks"></div>
+            <div class="matrix-effect" id="weeks-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="days"></div>
+            <div class="matrix-effect" id="days-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="hours"></div>
+            <div class="matrix-effect" id="hours-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="minutes"></div>
+            <div class="matrix-effect" id="minutes-page"></div>
         </div>
         <div class="page">
-            <div class="matrix-effect" id="seconds"></div>
+            <div class="matrix-effect" id="seconds-page"></div>
         </div>
     </div>
 
@@ -118,17 +113,19 @@
             const totalDays = Math.floor(totalHours / 24);
             const totalWeeks = Math.floor(totalDays / 7);
 
-            document.getElementById('years').textContent = `Years: ${years}`;
-            document.getElementById('weeks').textContent = `Weeks: ${totalWeeks}`;
-            document.getElementById('days').textContent = `Days: ${totalDays}`;
-            document.getElementById('hours').textContent = `Hours: ${totalHours}`;
-            document.getElementById('minutes').textContent = `Minutes: ${totalMinutes}`;
-            document.getElementById('seconds').textContent = `Seconds: ${totalSeconds}`;
+            document.getElementById('combined').textContent = `Years: ${years}, Weeks: ${totalWeeks}, Days: ${totalDays}, Hours: ${totalHours}, Minutes: ${totalMinutes}, Seconds: ${totalSeconds}`;
+            document.getElementById('years-page').textContent = `Years: ${years}`;
+            document.getElementById('months-page').textContent = `Months: ${months}`;
+            document.getElementById('weeks-page').textContent = `Weeks: ${totalWeeks}`;
+            document.getElementById('days-page').textContent = `Days: ${totalDays}`;
+            document.getElementById('hours-page').textContent = `Hours: ${totalHours}`;
+            document.getElementById('minutes-page').textContent = `Minutes: ${totalMinutes}`;
+            document.getElementById('seconds-page').textContent = `Seconds: ${totalSeconds}`;
         }
 
         let currentPage = 0;
         const swipeContainer = document.getElementById('swipe-container');
-        const totalPages = 7;
+        const totalPages = 8;
 
         function handleSwipe(direction) {
             currentPage = (currentPage + direction + totalPages) % totalPages;
