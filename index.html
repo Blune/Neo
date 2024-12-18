@@ -125,18 +125,23 @@
             const totalMinutes = Math.floor(totalSeconds / 60);
             const totalHours = Math.floor(totalMinutes / 60);
             const totalDays = Math.floor(totalHours / 24);
-            const totalWeeks = Math.floor(totalDays / 7);
+
+            const weeks = Math.floor(totalDays / 7);
+            const remainingDays = totalDays % 7;
+            const remainingHours = totalHours % 24;
+            const remainingMinutes = totalMinutes % 60;
+            const remainingSeconds = totalSeconds % 60;
 
             document.getElementById('combined-years').textContent = `Years: ${years}`;
-            document.getElementById('combined-weeks').textContent = `Weeks: ${totalWeeks}`;
-            document.getElementById('combined-days').textContent = `Days: ${totalDays}`;
-            document.getElementById('combined-hours').textContent = `Hours: ${totalHours}`;
-            document.getElementById('combined-minutes').textContent = `Minutes: ${totalMinutes}`;
-            document.getElementById('combined-seconds').textContent = `Seconds: ${totalSeconds}`;
+            document.getElementById('combined-weeks').textContent = `Weeks: ${weeks}`;
+            document.getElementById('combined-days').textContent = `Days: ${remainingDays}`;
+            document.getElementById('combined-hours').textContent = `Hours: ${remainingHours}`;
+            document.getElementById('combined-minutes').textContent = `Minutes: ${remainingMinutes}`;
+            document.getElementById('combined-seconds').textContent = `Seconds: ${remainingSeconds}`;
 
             document.getElementById('years-page').textContent = `Years: ${years}`;
             document.getElementById('months-page').textContent = `Months: ${months}`;
-            document.getElementById('weeks-page').textContent = `Weeks: ${totalWeeks}`;
+            document.getElementById('weeks-page').textContent = `Weeks: ${weeks}`;
             document.getElementById('days-page').textContent = `Days: ${totalDays}`;
             document.getElementById('hours-page').textContent = `Hours: ${totalHours}`;
             document.getElementById('minutes-page').textContent = `Minutes: ${totalMinutes}`;
