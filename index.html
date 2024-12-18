@@ -19,7 +19,7 @@
 
         .swipe-container {
             display: flex;
-            width: 800%;
+            width: 700%;
             height: 100%;
             transition: transform 0.5s ease;
         }
@@ -51,13 +51,22 @@
             .matrix-effect {
                 font-size: 1.5em;
             }
+
+            .page {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="swipe-container" id="swipe-container">
         <div class="page">
-            <div class="matrix-effect" id="combined"></div>
+            <div class="matrix-effect" id="years"></div>
+            <div class="matrix-effect" id="weeks"></div>
+            <div class="matrix-effect" id="days"></div>
+            <div class="matrix-effect" id="hours"></div>
+            <div class="matrix-effect" id="minutes"></div>
+            <div class="matrix-effect" id="seconds"></div>
         </div>
         <div class="page">
             <div class="matrix-effect" id="years"></div>
@@ -110,19 +119,16 @@
             const totalWeeks = Math.floor(totalDays / 7);
 
             document.getElementById('years').textContent = `Years: ${years}`;
-            document.getElementById('months').textContent = `Months: ${months}`;
             document.getElementById('weeks').textContent = `Weeks: ${totalWeeks}`;
             document.getElementById('days').textContent = `Days: ${totalDays}`;
             document.getElementById('hours').textContent = `Hours: ${totalHours}`;
             document.getElementById('minutes').textContent = `Minutes: ${totalMinutes}`;
             document.getElementById('seconds').textContent = `Seconds: ${totalSeconds}`;
-
-            document.getElementById('combined').textContent = `At the moment: ${years} years, ${months} months, ${Math.floor((totalDays % 365.25) / 7)} weeks, and ${totalDays % 7} days.`;
         }
 
         let currentPage = 0;
         const swipeContainer = document.getElementById('swipe-container');
-        const totalPages = 8;
+        const totalPages = 7;
 
         function handleSwipe(direction) {
             currentPage = (currentPage + direction + totalPages) % totalPages;
