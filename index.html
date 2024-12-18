@@ -62,15 +62,15 @@
             let months = now.getMonth() - startTime.getMonth();
 
             if (now.getDate() < startTime.getDate()) {
-                months--; // Adjust if current day is before the start date
+                months--; // Subtract 1 month if the current day is before the start date
             }
             if (months < 0) {
                 years--;
                 months += 12;
             }
 
-            // Find the most recent 27th
-            const last27th = new Date(now.getFullYear(), now.getMonth(), 27);
+            // Determine the most recent 27th
+            let last27th = new Date(now.getFullYear(), now.getMonth(), 27);
             if (now.getDate() < 27) {
                 // If today is before the 27th, go back to the previous month
                 last27th.setMonth(last27th.getMonth() - 1);
