@@ -132,6 +132,30 @@
             }
         });
 
+        let startX = 0;
+        let endX = 0;
+
+        swipeContainer.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].clientX;
+        });
+
+        swipeContainer.addEventListener('touchmove', (event) => {
+            endX = event.touches[0].clientX;
+        });
+
+        swipeContainer.addEventListener('touchend', () => {
+            const deltaX = endX - startX;
+
+            if (deltaX > 50) {
+                handleSwipe(-1);
+            } else if (deltaX < -50) {
+                handleSwipe(1);
+            }
+
+            startX = 0;
+            endX = 0;
+        });
+
         setInterval(updateTimer, 1000);
         updateTimer();
     </script>
