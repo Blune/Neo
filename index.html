@@ -1,108 +1,103 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Timer</title>
+    <title>Age Timer</title>
     <style>
-        /* General Reset */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Courier New', monospace;
-            background-color: #000;
-            color: #00FF41;
-            overflow: hidden;
-        }
-
-        /* Centered Container */
-        #timer-container {
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        /* Timer Styles */
-        #timer-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41;
-        }
-
-        #timer {
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41;
-            line-height: 2rem;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .matrix-effect {
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .timer div {
+            margin-bottom: 0.5em;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00;
+            }
+            to {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .timer {
+                font-size: 1.5em;
+            }
+
+            .timer div {
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Timer Content -->
-    <div id="timer-container">
-        <div id="timer-title">Tage seit Neo's Ankunft</div>
-        <div id="timer"></div>
+    <div class="timer matrix-effect">
+        <div id="years"></div>
+        <div id="months"></div>
+        <div id="weeks"></div>
+        <div id="days"></div>
+        <div id="hours"></div>
+        <div id="minutes"></div>
+        <div id="seconds"></div>
     </div>
 
     <script>
-        const startTime = new Date('2024-09-27T20:26:00+02:00'); // German local time
-
         function updateTimer() {
+            const startDate = new Date("2024-09-27T20:26:00");
             const now = new Date();
 
-            // Calculate years and months
-            let years = now.getFullYear() - startTime.getFullYear();
-            let months = now.getMonth() - startTime.getMonth();
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
 
-            if (now.getDate() < startTime.getDate()) {
-                months--; // Subtract 1 month if the current day is before the start date
+            if (days < 0) {
+                months -= 1;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
             }
+
             if (months < 0) {
-                years--;
+                years -= 1;
                 months += 12;
             }
 
-            // Determine the most recent 27th
-            let last27th = new Date(now.getFullYear(), now.getMonth(), 27);
-            if (now.getDate() < 27) {
-                // If today is before the 27th, go back to the previous month
-                last27th.setMonth(last27th.getMonth() - 1);
-            }
+            const totalMilliseconds = now - startDate;
+            const totalSeconds = Math.floor(totalMilliseconds / 1000);
+            const totalMinutes = Math.floor(totalSeconds / 60);
+            const totalHours = Math.floor(totalMinutes / 60);
+            const totalDays = Math.floor(totalHours / 24);
+            const totalWeeks = Math.floor(totalDays / 7);
 
-            // Calculate days since the most recent 27th
-            const diffInMillis = now - last27th;
-            const diffInDays = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
-
-            // Weeks and days calculation
-            const weeks = Math.floor(diffInDays / 7);
-            const days = diffInDays % 7;
-
-            // Remaining time components
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-
-            // Update timer display
-            document.getElementById('timer').innerHTML = `
-                <div>${years} Jahre</div>
-                <div>${months} Monate</div>
-                <div>${weeks} Wochen</div>
-                <div>${days} Tage</div>
-                <div>${hours} Stunden</div>
-                <div>${minutes} Minuten</div>
-                <div>${seconds} Sekunden</div>
-            `;
+            document.getElementById('years').textContent = `Years: ${years}`;
+            document.getElementById('months').textContent = `Months: ${months}`;
+            document.getElementById('weeks').textContent = `Weeks: ${totalWeeks}`;
+            document.getElementById('days').textContent = `Days: ${totalDays}`;
+            document.getElementById('hours').textContent = `Hours: ${totalHours}`;
+            document.getElementById('minutes').textContent = `Minutes: ${totalMinutes}`;
+            document.getElementById('seconds').textContent = `Seconds: ${totalSeconds}`;
         }
 
         setInterval(updateTimer, 1000);
-        updateTimer(); // Initial call
+        updateTimer();
     </script>
 </body>
 </html>
