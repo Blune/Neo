@@ -52,43 +52,39 @@
     </div>
 
     <script>
-        const startTime = new Date('2024-09-27T20:26:00+02:00'); // Explicitly set German local time
+        const startTime = new Date('2024-09-27T20:26:00+02:00'); // German local time
 
         function updateTimer() {
             const now = new Date();
 
-            // Years and months calculation using date objects
+            // Calculate years and months
             let years = now.getFullYear() - startTime.getFullYear();
             let months = now.getMonth() - startTime.getMonth();
+
             if (now.getDate() < startTime.getDate()) {
-                months--; // Subtract 1 month if the current day is less than the start date
+                months--; // Adjust if current day is before the start date
             }
             if (months < 0) {
-                years--; // Adjust years if months are negative
+                years--;
                 months += 12;
             }
 
-            // Calculate the start date for this month's cycle (27th of the current month)
-            const lastFullMonthDate = new Date(
-                now.getFullYear(),
-                now.getMonth(),
-                startTime.getDate()
-            );
-
-            // If the current day is before the 27th, adjust to the last full month cycle
-            if (now < lastFullMonthDate) {
-                lastFullMonthDate.setMonth(lastFullMonthDate.getMonth() - 1);
+            // Find the most recent 27th
+            const last27th = new Date(now.getFullYear(), now.getMonth(), 27);
+            if (now.getDate() < 27) {
+                // If today is before the 27th, go back to the previous month
+                last27th.setMonth(last27th.getMonth() - 1);
             }
 
-            // Calculate days since the last full month date
-            const diffInMillis = now - lastFullMonthDate;
+            // Calculate days since the most recent 27th
+            const diffInMillis = now - last27th;
             const diffInDays = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
 
             // Weeks and days calculation
             const weeks = Math.floor(diffInDays / 7);
             const days = diffInDays % 7;
 
-            // Remaining components
+            // Remaining time components
             const hours = now.getHours();
             const minutes = now.getMinutes();
             const seconds = now.getSeconds();
