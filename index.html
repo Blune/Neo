@@ -209,6 +209,15 @@
             endX = 0;
         });
 
+        document.addEventListener('click', (event) => {
+            const screenWidth = window.innerWidth;
+            if (event.clientX < screenWidth / 2) {
+                handleSwipe(-1); // Tap on the left
+            } else {
+                handleSwipe(1); // Tap on the right
+            }
+        });
+
         setInterval(updateTimer, 1000);
         updateTimer();
     </script>
