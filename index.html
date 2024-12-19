@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Timer</title>
+    <title>Alter Timer</title>
     <style>
         body {
             background-color: black;
@@ -25,7 +25,7 @@
             font-size: 2em;
             text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00;
             position: absolute;
-            top: 33%; /* Move to the end of the first third */
+            top: 33%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -155,20 +155,20 @@
             const remainingMinutes = totalMinutes % 60;
             const remainingSeconds = totalSeconds % 60;
 
-            document.getElementById('combined-years').textContent = `Years: ${years}`;
-            document.getElementById('combined-weeks').textContent = `Weeks: ${weeks}`;
-            document.getElementById('combined-days').textContent = `Days: ${remainingDays}`;
-            document.getElementById('combined-hours').textContent = `Hours: ${remainingHours}`;
-            document.getElementById('combined-minutes').textContent = `Minutes: ${remainingMinutes}`;
-            document.getElementById('combined-seconds').textContent = `Seconds: ${remainingSeconds}`;
+            document.getElementById('combined-years').textContent = `Jahre: ${years}`;
+            document.getElementById('combined-weeks').textContent = `Wochen: ${weeks}`;
+            document.getElementById('combined-days').textContent = `Tage: ${remainingDays}`;
+            document.getElementById('combined-hours').textContent = `Stunden: ${remainingHours}`;
+            document.getElementById('combined-minutes').textContent = `Minuten: ${remainingMinutes}`;
+            document.getElementById('combined-seconds').textContent = `Sekunden: ${remainingSeconds}`;
 
-            document.getElementById('years-page').textContent = `Years: ${years}`;
-            document.getElementById('months-page').textContent = `Months: ${months}`;
-            document.getElementById('weeks-page').textContent = `Weeks: ${weeks}`;
-            document.getElementById('days-page').textContent = `Days: ${totalDays}`;
-            document.getElementById('hours-page').textContent = `Hours: ${totalHours}`;
-            document.getElementById('minutes-page').textContent = `Minutes: ${totalMinutes}`;
-            document.getElementById('seconds-page').textContent = `Seconds: ${totalSeconds}`;
+            document.getElementById('years-page').textContent = `Jahre: ${years}`;
+            document.getElementById('months-page').textContent = `Monate: ${months}`;
+            document.getElementById('weeks-page').textContent = `Wochen: ${weeks}`;
+            document.getElementById('days-page').textContent = `Tage: ${totalDays}`;
+            document.getElementById('hours-page').textContent = `Stunden: ${totalHours}`;
+            document.getElementById('minutes-page').textContent = `Minuten: ${totalMinutes}`;
+            document.getElementById('seconds-page').textContent = `Sekunden: ${totalSeconds}`;
         }
 
         let currentPage = 0;
