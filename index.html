@@ -195,11 +195,8 @@
             startX = event.touches[0].clientX;
         });
 
-        swipeContainer.addEventListener('touchmove', (event) => {
-            endX = event.touches[0].clientX;
-        });
-
-        swipeContainer.addEventListener('touchend', () => {
+        swipeContainer.addEventListener('touchend', (event) => {
+            endX = event.changedTouches[0].clientX;
             const deltaX = endX - startX;
 
             if (deltaX > 50) {
