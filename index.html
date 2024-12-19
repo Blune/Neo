@@ -143,7 +143,7 @@
                 months += 12;
             }
 
-            const totalMilliseconds = now - startDate;
+            const totalMilliseconds = now.getTime() - startDate.getTime() + (new Date().getTimezoneOffset() * 60000);
             const totalSeconds = Math.floor(totalMilliseconds / 1000);
             const totalMinutes = Math.floor(totalSeconds / 60);
             const totalHours = Math.floor(totalMinutes / 60);
