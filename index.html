@@ -97,7 +97,7 @@
 </head>
 <body>
     <canvas id="matrix-canvas"></canvas>
-    <div class="header">Neo<br><span style='font-size: 0.7em; text-shadow: none;'>Startzeit: 27. September 2024, 20:26 Uhr</span></div>
+    <div class="header">Neo<br><span style='font-size: 0.7em; text-shadow: none;'>27. September 2024, 20:26 Uhr</span></div>
     <div class="content">
         <div class="swipe-container" id="swipe-container">
             <div class="page">
@@ -144,7 +144,7 @@
 
         const fontSize = 16;
         const columns = Math.floor(canvas.width / fontSize);
-        const drops = Array(columns).fill(1);
+        const drops = Array(columns).fill(0).map(() => Math.random() * canvas.height / fontSize);
 
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
